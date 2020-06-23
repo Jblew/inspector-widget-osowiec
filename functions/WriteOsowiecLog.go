@@ -11,8 +11,8 @@ import (
 	"github.com/Jblew/inspector-widget-osowiec/functions/util"
 )
 
-// WriteToFirestore publishes entry to firestore document
-func WriteToFirestore(writer http.ResponseWriter, req *http.Request) {
+// WriteOsowiecLog publishes osowiec log to firestore document
+func WriteOsowiecLog(writer http.ResponseWriter, req *http.Request) {
 	out, err := handleWriteToFirestore(writer, req)
 	if err != nil {
 		writer.WriteHeader(500)

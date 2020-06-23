@@ -25,28 +25,11 @@ gcloud config set project ${GCP_PROJECT_ID}
 gcloud services enable cloudfunctions.googleapis.com
 
 # Deploy functions in parallel
-gcloud functions deploy PublishEntry \
+gcloud functions deploy WriteOsowiecLog \
   --allow-unauthenticated \
   --trigger-http \
   --region "${GCP_FUNCTIONS_REGION}" \
   --runtime go113 \
   --max-instances 1 \
-  --memory "2048MB" &
-
-gcloud functions deploy ReadDiary \
-  --allow-unauthenticated \
-  --trigger-http \
-  --region "${GCP_FUNCTIONS_REGION}" \
-  --runtime go113 \
-  --memory "2048MB" &
-
-gcloud functions deploy ResetLocalRepo \
-  --allow-unauthenticated \
-  --trigger-http \
-  --region "${GCP_FUNCTIONS_REGION}" \
-  --runtime go113 \
-  --max-instances 1 \
-  --memory "2048MB" &
-wait
-
+  --memory "2048MB"
 

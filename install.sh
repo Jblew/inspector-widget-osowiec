@@ -4,8 +4,8 @@ cd "${DIR}"
 set -e
 
 echo "# Installing"
-echo "# Deploying function"
-./function/deploy.sh
-echo "# Function deploy done"
+echo "# Deploying functions"
+./functions/deploy.sh
+echo "# Functions deploy done"
 
 echo "# Installation done"
