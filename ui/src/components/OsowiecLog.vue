@@ -8,7 +8,7 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { StatefulResource, Resource } from "vue-stateful-resource";
 import { listenForLogs } from "./listenForLogs";
-import { LogEntry } from "@/types";
+import { LogEntry } from "../types";
 import OsowiecLogUi from "./OsowiecLogUi.vue";
 
 @Component({
@@ -17,7 +17,7 @@ import OsowiecLogUi from "./OsowiecLogUi.vue";
 export default class OsowiecLog extends Vue {
   logsResource: Resource<LogEntry[]> = Resource.empty();
 
-  get entries(): [string, number][] {
+  get logs(): LogEntry[] {
     const raw: LogEntry[] = [...(this.logsResource.result || [])];
     console.log(raw);
     return raw.sort((a, b) => a.timestamp - b.timestamp);

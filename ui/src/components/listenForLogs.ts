@@ -1,8 +1,8 @@
 import { Resource } from 'vue-stateful-resource';
 import firebase from 'firebase/app';
 import { listenForSnapshots } from './listenForSnapshots';
-import { LogEntry } from '@/types';
-import { projectConfig } from '@/project.config';
+import { LogEntry } from '../types';
+import { projectConfig } from '../project.config';
 
 export const listenForLogs = (cb: (res: Resource<LogEntry[]>) => void) =>
   listenForSnapshots(getQuery(), processDocuments, cb);
