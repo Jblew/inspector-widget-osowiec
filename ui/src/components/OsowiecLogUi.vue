@@ -11,19 +11,19 @@
 import { Component, Vue, Watch, Prop } from "vue-property-decorator";
 import { StatefulResource, Resource } from "vue-stateful-resource";
 import { listenForLogs } from "./listenForLogs";
-import { LogEntry } from "@/types";
+import { LogEntry } from "../types";
 
 @Component
 export default class OsowiecLogUi extends Vue {
   @Prop({ required: true })
-  logs: LogEntry[];
+  logs!: LogEntry[];
 
   get lastLog(): LogEntry | undefined {
     return this.logs[0];
   }
 
   get lastLogContents(): string {
-    return this.lastLog || "";
+    return this.lastLog ? this.lastLog.contents : "";
   }
 
   get lastLogTimeFormatted(): string {
