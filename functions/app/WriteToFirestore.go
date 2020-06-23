@@ -13,13 +13,14 @@ type row struct {
 
 // WriteToFirestore writes a text entry to firestore
 func (app *App) WriteToFirestore(context context.Context, contents string) error {
+	timestampMs := time.Now().UnixNano() / 1000000
 	collName := app.Config.FirestoreCollection
 	collRef := app.Firestore.Collection(collName)
-	docRef := collRef.NewDoc()
+	docRef := collRef.Doc(fmt.Sprintf("%d", timestampMs))
 
 	rowToWrite := row{
 		contents:  contents,
-		timestamp: time.Now().UnixNano() / 1000000,
+		timestamp: timestampMs,
 	}
 
 	_, err := docRef.Create(context, rowToWrite)
