@@ -22,7 +22,7 @@ export default class OsowiecLog extends Vue {
     // tslint:disable no-console
     /* eslint-disable */
     console.log(raw);
-    return raw.sort((a, b) => a.timestamp - b.timestamp);
+    return raw.sort((a, b) => b.timestamp - a.timestamp);
   }
 
   beforeMount() {
