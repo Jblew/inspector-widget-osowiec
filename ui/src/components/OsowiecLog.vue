@@ -12,7 +12,7 @@ import { LogEntry } from "../types";
 import OsowiecLogUi from "./OsowiecLogUi.vue";
 
 @Component({
-  components: { StatefulResource }
+  components: { StatefulResource, OsowiecLogUi }
 })
 export default class OsowiecLog extends Vue {
   logsResource: Resource<LogEntry[]> = Resource.empty();

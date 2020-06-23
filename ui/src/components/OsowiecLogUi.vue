@@ -1,6 +1,6 @@
 <template>
   <div class="osowiec-log-ui">
-    <div>{{ lastLogTimeFormatted }}</div>
+    <div class="datetime">{{ lastLogTimeFormatted }}</div>
     <pre>
       {{ lastLogContents }}
     </pre>
@@ -14,7 +14,7 @@ import { listenForLogs } from "./listenForLogs";
 import { LogEntry } from "../types";
 
 @Component
-export default class OsowiecLogUi extends Vue {
+export default class OsowiecLogUI extends Vue {
   @Prop({ required: true })
   logs!: LogEntry[];
 
@@ -38,7 +38,13 @@ export default class OsowiecLogUi extends Vue {
 <style scoped>
 .osowiec-log-ui {
   width: 100%;
-  min-height: 40rem;
+  height: 18rem;
   overflow: scroll;
+}
+
+.osowiec-log-ui .datetime {
+  width: 100%;
+  text-align: center;
+  text-decoration: underline;
 }
 </style>
