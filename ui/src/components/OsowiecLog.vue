@@ -1,40 +1,32 @@
 <template>
-  <stateful-resource :resource="costResource">
-    <CostBarChart :entries="entries" title="AWS Cost daily [USD]" color="#e6ee9c" />
+  <stateful-resource :resource="logsResource">
+    <osowiec-log-ui :logs="logs" />
   </stateful-resource>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
-import { StatefulResource, Resource } from 'vue-stateful-resource';
-import firebase from 'firebase/app';
-import { awsCostConfig } from '@osowiec-backup-config';
-import { AWSCostEntryToday } from '@AWSCostEntry';
-import { listenForDaily } from './listenForDaily';
-import CostBarChart from './CostBarChart.vue';
+import { Component, Vue, Watch } from "vue-property-decorator";
+import { StatefulResource, Resource } from "vue-stateful-resource";
+import { listenForLogs } from "./listenForLogs";
+import { LogEntry } from "@/types";
+import OsowiecLogUi from "./OsowiecLogUi.vue";
 
 @Component({
-  components: { StatefulResource, CostBarChart },
+  components: { StatefulResource }
 })
-export default class AWSCostDaily extends Vue {
-  costResource: Resource<AWSCostEntryToday[]> = Resource.empty();
+export default class OsowiecLog extends Vue {
+  logsResource: Resource<LogEntry[]> = Resource.empty();
 
   get entries(): [string, number][] {
-    const raw: AWSCostEntryToday[] = [...(this.costResource.result || [])];
+    const raw: LogEntry[] = [...(this.logsResource.result || [])];
     console.log(raw);
-    return raw
-      .sort((a, b) => a.timestampMs - b.timestampMs)
-      .map(e => [entryLabel(e), e.today.blendedCost]);
+    return raw.sort((a, b) => a.timestamp - b.timestamp);
   }
 
   beforeMount() {
-    listenForDaily(res => {
-      this.costResource = res;
+    listenForLogs(res => {
+      this.logsResource = res;
     });
   }
-}
-function entryLabel(entry: AWSCostEntryToday) {
-  const date = new Date(entry.timestampMs);
-  return date.toTimeString().substring(0, 12);
 }
 </script>
