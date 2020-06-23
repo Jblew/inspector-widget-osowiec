@@ -19,6 +19,8 @@ export default class OsowiecLog extends Vue {
 
   get logs(): LogEntry[] {
     const raw: LogEntry[] = [...(this.logsResource.result || [])];
+    // tslint:disable no-console
+    /* eslint-disable */
     console.log(raw);
     return raw.sort((a, b) => a.timestamp - b.timestamp);
   }
