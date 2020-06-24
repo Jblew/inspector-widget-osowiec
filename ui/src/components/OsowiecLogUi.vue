@@ -1,17 +1,23 @@
 <template>
-  <div class="osowiec-log-ui">
-    <div class="datetime">{{ lastLogTimeFormatted }}</div>
-    <pre>
+  <div>
+    <div class="osowiec-log-ui-status">
+      Osowiec git backup log:
+      {{ lastLogTimeFormatted }}
+    </div>
+    <div class="osowiec-log-ui" ref="logContainer">
+      <pre>
       {{ lastLogContents }}
-    </pre>
+    </pre
+      >
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch, Prop } from "vue-property-decorator";
-import { StatefulResource, Resource } from "vue-stateful-resource";
-import { listenForLogs } from "./listenForLogs";
-import { LogEntry } from "../types";
+import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
+import { StatefulResource, Resource } from 'vue-stateful-resource';
+import { listenForLogs } from './listenForLogs';
+import { LogEntry } from '../types';
 
 @Component
 export default class OsowiecLogUI extends Vue {
@@ -23,15 +29,28 @@ export default class OsowiecLogUI extends Vue {
   }
 
   get lastLogContents(): string {
-    return this.lastLog ? this.lastLog.contents : "";
+    return this.lastLog ? this.lastLog.contents : '';
   }
 
   get lastLogTimeFormatted(): string {
     if (this.lastLog) {
       return new Date(this.lastLog.timestamp).toISOString();
-    } else {
-      return "(no log)";
     }
+    return '(no log)';
+  }
+
+  mounted() {
+    this.onLogsUpdated();
+  }
+
+  @Watch('logs')
+  onLogsUpdated() {
+    this.scrollBottom();
+  }
+
+  private scrollBottom() {
+    const containerElem: any = this.$refs.logContainer;
+    containerElem.scrollTop = containerElem.scrollHeight;
   }
 }
 </script>
@@ -40,11 +59,13 @@ export default class OsowiecLogUI extends Vue {
   width: 100%;
   height: 18rem;
   overflow: scroll;
+  scroll-behavior: smooth;
 }
 
-.osowiec-log-ui .datetime {
+.osowiec-log-ui-status {
   width: 100%;
   text-align: center;
   text-decoration: underline;
+  color: #bbb;
 }
 </style>
